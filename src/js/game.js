@@ -1,6 +1,8 @@
 import '../css/style.css'
-import { Actor, Engine, Vector, DisplayMode } from "excalibur"
+import { Actor, Engine, Vector, DisplayMode, SolverStrategy } from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
+import { Player } from './player.js'
+import { Platform } from './platform.js'
 
 export class Game extends Engine {
 
@@ -9,20 +11,19 @@ export class Game extends Engine {
             width: 1280,
             height: 720,
             maxFps: 60,
-            displayMode: DisplayMode.FitScreen
+            displayMode: DisplayMode.FitScreen,
+            physics: {
+                solver: SolverStrategy.Realistic,
+                gravity: new Vector(0, 800)
+            }
         })
         this.start(ResourceLoader).then(() => this.startGame())
     }
 
     startGame() {
         console.log("start de game!")
-        const fish = new Actor()
-        fish.graphics.use(Resources.Fish.toSprite())
-        fish.pos = new Vector(500, 300)
-        fish.vel = new Vector(-10, 0)
-        fish.events.on("exitviewport", (e) => this.fishLeft(e))
-        this.add(fish)
-        console.log("Hello world!")
+        this.add(new Player(300, 200));
+        this.add(new Platform(500, 720));
     }
 
     fishLeft(e) {
