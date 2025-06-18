@@ -22,6 +22,7 @@ export class Game extends Engine {
 
     startGame() {
         console.log("start de game!")
+        console.log("Thisworksright")
         this.add(new Player(300, 200));
         this.add(new Platform(500, 720));
     }
