@@ -7,13 +7,15 @@ export class Enemy extends Actor {
     #direction = 1;
     direction = 1; // public for switching
 
-    constructor() {
+    constructor(minX = 0, maxX = 15000) {
         super({
             width: 80,
-            height: 160,
+            height: 100,
             collisionType: CollisionType.Active,
         });
-        this.anchor = new Vector(0.5, 0.5);
+        this.anchor = new Vector(0.5, 0.69);
+        this.minX = minX;
+        this.maxX = maxX;
     }
 
     onInitialize(engine) {
@@ -50,15 +52,15 @@ export class Enemy extends Actor {
             this.graphics.use(this.runLeft);
         }
 
-        if (this.pos.x < 100) {
+        // Gebruik nu de dynamische grenzen!
+        if (this.pos.x < this.minX) {
             this.direction = 1;
         }
-        if (this.pos.x > 1100) {
+        if (this.pos.x > this.maxX) {
             this.direction = -1;
         }
 
         this.rotation = 0;
         this.angularVelocity = 0;
-
     }
 }

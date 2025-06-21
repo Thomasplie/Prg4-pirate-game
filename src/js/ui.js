@@ -14,9 +14,9 @@ export class UI extends ScreenElement {
     onInitialize(engine) {
         this.#label = new Label({
             text: 'Score   0',
-            pos: new Vector(400, 200),
+            pos: new Vector(580, 30),
             font: new Font({
-                size: 20,
+                size: 30,
                 family: 'Open Sans',
                 color: Color.White
             })
@@ -25,7 +25,7 @@ export class UI extends ScreenElement {
 
         for (let i = 0; i < 3; i++) {
             const life = new Actor({
-                pos: new Vector(700 + i * 70, 50),
+                pos: new Vector(50 + i * 70, 50),
                 radius: 15,
                 anchor: new Vector(0.5, 0.5)
             });
@@ -38,7 +38,7 @@ export class UI extends ScreenElement {
 
         this.#highscoreLabel = new Label({
             text: "Highscore   0",
-            pos: new Vector(50, 70),
+            pos: new Vector(570, 70),
             font: new Font({
                 size: 20,
                 family: 'Open Sans',
@@ -66,9 +66,9 @@ export class UI extends ScreenElement {
     showVictoryMessage() {
         this.victory = new Label({
             text: 'Victory',
-            pos: new Vector(350, 250),
+            pos: new Vector(400, 100),
             font: new Font({
-                size: 40,
+                size: 80,
                 family: 'Open Sans',
                 color: Color.White
             })
@@ -78,10 +78,10 @@ export class UI extends ScreenElement {
 
     gameOverMessage() {
         this.gameOver = new Label({
-            text: 'Game Over',
-            pos: new Vector(350, 250),
+            text: 'GAME OVER',
+            pos: new Vector(400, 100),
             font: new Font({
-                size: 40,
+                size: 80,
                 family: 'Open Sans',
                 color: Color.Red
             })

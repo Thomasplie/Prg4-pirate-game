@@ -5,11 +5,13 @@ import { Coin } from "./coin";
 import { Coinbag } from "./coinbag";
 import { Enemy } from "./enemy";
 import { Fire } from "./fire";
+import { Victory } from "./victory";
 
 export class Player extends Actor {
 
     #speed = 400;
     #jump = false;
+    #lastDirection = "right";
     hitpoints = 3;
     score = 0;
 
@@ -20,6 +22,8 @@ export class Player extends Actor {
             collisionType: CollisionType.Active,
             // anchor: new Vector(0.5, 0.5)
         });
+
+        this.anchor = new Vector(0.5, 0.7);
 
         //Animations
         const PlayerIdle = SpriteSheet.fromImageSource({
@@ -82,7 +86,7 @@ export class Player extends Actor {
         // this.body.restitution = 0;
 
         // Making Capsule shape hitbox and making sure sprite doesn't rotate
-        const hitbox = Shape.Capsule(48, 96, Vector.Half, new Vector(0, -1000));
+        const hitbox = Shape.Capsule(48, 92, new Vector(0.5, 0.8), new Vector(0, -1000));
         this.collider.set(hitbox);
         this.collider.restitution = 0;
 
@@ -101,11 +105,23 @@ export class Player extends Actor {
         if (engine.input.keyboard.isHeld(Keys.Left)) {
             xspeed = -this.#speed;
             this.graphics.use("runLeft")
+            this.lastDirection = "left";
         }
 
         if (engine.input.keyboard.isHeld(Keys.Right)) {
             xspeed = this.#speed;
             this.graphics.use("runRight")
+            this.lastDirection = "right";
+        }
+
+        if (!engine.input.keyboard.isHeld(Keys.Left) && !engine.input.keyboard.isHeld(Keys.Right)) {
+            if (this.lastDirection === "left") {
+                this.graphics.use("idle");
+                this.graphics.current.flipHorizontal = true;
+            } else {
+                this.graphics.use("idle");
+                this.graphics.current.flipHorizontal = false;
+            }
         }
 
         if (engine.input.keyboard.wasPressed(Keys.Space) && this.#jump === true) {
@@ -145,6 +161,7 @@ export class Player extends Actor {
                 event.other.owner.kill();
                 this.score += 5
                 this.scene.engine.ui.updateScore(this.score)
+                this.vel.y = -500;
             }
             else {
                 this.#reducedHealth();
@@ -155,6 +172,11 @@ export class Player extends Actor {
 
         if (event.other.owner instanceof Fire) {
             this.#reducedHealth();
+        }
+
+        if (event.other.owner instanceof Victory) {
+            this.scene.engine.ui.showVictoryMessage();
+            this.kill();
         }
     }
 
@@ -169,9 +191,9 @@ export class Player extends Actor {
 
     #inVoid() {
         this.gameOver()
-        this.pos = new Vector(400, 0);
-        this.vel = Vector.Zero
-        this.scene.engine.ui.showHealth(this.hitpoints);
+        this.#reducedHealth();
+        this.pos = new Vector(100, 200);
+        this.vel = Vector.Zero;
     }
 
 

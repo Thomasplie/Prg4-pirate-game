@@ -2,12 +2,12 @@ import { Actor, CollisionType, Color, Vector } from "excalibur";
 import { Resources } from "./resources";
 
 export class Platform extends Actor {
-    constructor(x, y) {
+    constructor(x, y, width = 700, height = 80) {
         super({
             x, y,
-            width: 500,
-            height: 80,
-            color: Color.Blue
+            width,
+            height,
+            color: Color.Viridian
         })
     }
 

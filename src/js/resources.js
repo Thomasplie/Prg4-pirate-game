@@ -13,6 +13,7 @@ const Resources = {
     Heart: new ImageSource('images/heart.png'),
     Enemy: new ImageSource('images/enemy.png'),
     Fire: new ImageSource('images/fire.png'),
+    Victory: new ImageSource('images/victory.png'),
 }
 
 
