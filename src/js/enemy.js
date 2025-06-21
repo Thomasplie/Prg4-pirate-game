@@ -1,0 +1,64 @@
+import { Actor, CollisionType, SpriteSheet, range, Animation, Vector, DegreeOfFreedom } from "excalibur";
+import { Resources } from "./resources";
+
+export class Enemy extends Actor {
+
+    #speed = 100;
+    #direction = 1;
+    direction = 1; // public for switching
+
+    constructor() {
+        super({
+            width: 80,
+            height: 160,
+            collisionType: CollisionType.Active,
+        });
+        this.anchor = new Vector(0.5, 0.5);
+    }
+
+    onInitialize(engine) {
+        const runSprite = SpriteSheet.fromImageSource({
+            image: Resources.Enemy,
+            grid: {
+                rows: 1,
+                columns: 11,
+                spriteWidth: 16,
+                spriteHeight: 32
+            }
+        });
+
+        this.runRight = Animation.fromSpriteSheet(runSprite, range(0, 10), 100);
+        this.runLeft = this.runRight.clone();
+        this.runLeft.flipHorizontal = true;
+
+        this.runRight.scale = new Vector(5, 5);
+        this.runLeft.scale = new Vector(5, 5);
+
+        this.graphics.use(this.runRight);
+
+        //Makes it so that the enemy won't have wonky mechanics with player hitbox.
+        this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation);
+    }
+
+    onPreUpdate(engine, delta) {
+        this.vel.x = this.#speed * this.direction;
+
+        // Switch animation based on direction
+        if (this.direction === 1) {
+            this.graphics.use(this.runRight);
+        } else {
+            this.graphics.use(this.runLeft);
+        }
+
+        if (this.pos.x < 100) {
+            this.direction = 1;
+        }
+        if (this.pos.x > 1100) {
+            this.direction = -1;
+        }
+
+        this.rotation = 0;
+        this.angularVelocity = 0;
+
+    }
+}

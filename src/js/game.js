@@ -1,8 +1,13 @@
 import '../css/style.css'
-import { Actor, Engine, Vector, DisplayMode, SolverStrategy } from "excalibur"
+import { Actor, Engine, Vector, DisplayMode, SolverStrategy, Axis } from "excalibur"
 import { Resources, ResourceLoader } from './resources.js'
 import { Player } from './player.js'
 import { Platform } from './platform.js'
+import { Coin } from './coin.js'
+import { Coinbag } from './coinbag.js'
+import { UI } from './ui.js'
+import { Enemy } from './enemy.js'
+import { Fire } from './fire.js'
 
 export class Game extends Engine {
 
@@ -22,14 +27,47 @@ export class Game extends Engine {
 
     startGame() {
         console.log("start de game!")
-        console.log("Thisworksright")
-        this.add(new Player(300, 200));
-        this.add(new Platform(500, 720));
+
+        //adding the player
+        const player = new Player;
+        player.pos = new Vector(500, 200);
+        this.add(player);
+
+        //adding ui
+        this.ui = new UI();
+        this.add(this.ui)
+
+        //adding platforms
+        const platform = new Platform;
+        platform.pos = new Vector(500, 500);
+        this.add(platform);
+
+        const platform2 = new Platform;
+        platform2.pos = new Vector(900, 300);
+        this.add(platform2);
+
+        //adding enemies
+        const enemy = new Enemy;
+        enemy.pos = new Vector(1000, 200);
+        this.add(enemy);
+
+        //adding obstacles
+        const fire = new Fire;
+        fire.pos = new Vector(600, 500);
+        this.add(fire);
+
+        const coin = new Coin;
+        coin.pos = new Vector
+        this.add(new Coin(400, 300));
+
+        const coinbag = new Coinbag;
+        coin.pos = new Vector
+        this.add(new Coinbag(600, 300));
+
+        //lock camera onto player
+        this.currentScene.camera.strategy.lockToActorAxis(player, Axis.X);
     }
 
-    fishLeft(e) {
-        e.target.pos = new Vector(1350, 300)
-    }
 }
 
 new Game()
