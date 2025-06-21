@@ -4,7 +4,6 @@ import { Resources } from "./resources";
 export class Enemy extends Actor {
 
     #speed = 100;
-    #direction = 1;
     direction = 1; // public for switching
 
     constructor(minX = 0, maxX = 15000) {
@@ -52,7 +51,7 @@ export class Enemy extends Actor {
             this.graphics.use(this.runLeft);
         }
 
-        // Gebruik nu de dynamische grenzen!
+        // dynamic borders, so i can make the enemies walk wherever i want.
         if (this.pos.x < this.minX) {
             this.direction = 1;
         }

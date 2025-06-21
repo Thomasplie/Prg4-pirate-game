@@ -177,6 +177,7 @@ export class Game extends Engine {
         coin10.pos = new Vector(4000, 200);
         this.add(coin10);
 
+        //adding coinbags
         const coinbag = new Coinbag;
         coinbag.pos = new Vector(2200, 400);
         this.add(coinbag);
@@ -201,6 +202,7 @@ export class Game extends Engine {
         coinbag6.pos = new Vector(-450, 300);
         this.add(coinbag6);
 
+        //adding victory
         const finish = new Victory;
         finish.pos = new Vector(5000, 400);
         this.add(finish);
